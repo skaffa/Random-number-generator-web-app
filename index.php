@@ -37,32 +37,46 @@
         #subimg:hover {
             filter: invert();
         }
+        #result {
+            width: 50vw;
+            margin: 20px auto;
+            background-color: black;
+            padding: 20px;
+        }
+        #dice {
+        }
     </style>
 </head>
 <body>
     <div id="container">
-        <form action="" autocomplete="off" method="post">
+        <form action="" autocomplete="off" method="get">
             <input type="number" name="amount" placeholder="How many dice to roll?" required>
-            <button id="submit" name="submit" value="submit" type="submit"><img id="subimg" src="dice/dice-target.svg"></button>
+            <button id="submit" type="submit"><img id="subimg" src="dice/dice-target.svg"></button>
         </form>
         <hr>
         <div id="result">
+            <div id="dice">
             <?php
-            if (isset($_POST['submit'])) {
-                if (isset($_POST['amount'])) {
-                    try {
-                        intval($_POST['amount']);
-                    } catch {
-                        echo('Please enter a number');
+            if (isset($_GET['amount'])) {
+                $amount = intval($_GET['amount']);
+                $total = 0;
+                if ($amount == True) {
+                    for ($i = 0;$i < $amount;$i++) {
+                        $value = rand(1,6);
+                        $total += $value;
+                        echo('
+                        <img width="50px;" loading="lazy" src="dice/'.$value.'.svg">
+                        ');
                     }
-                    if (is_int($_POST['amount'])) {
-                        if ($_POST['amount'] >= 1 && $_POST['amount'] <= 6) {
-                            echo('TRUefsE');
-                        }
-                    }
+                    echo('</div><span style="color: white;">Rolled '.$amount.' dice worth '.$total.'</span>');
+                } else {
+                    echo('Value must be an integer');
                 }
+            } else {
+                echo('ELSE');
             }
             ?>
+            </div>
         </div>
     </div>
 </body>
